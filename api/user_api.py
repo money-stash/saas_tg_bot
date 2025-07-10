@@ -11,6 +11,14 @@ def add_new_user(user_id, username, key):
     print("Response:", response.json())
 
 
+def update_add_new_user(user_id, username, key):
+    url = f"{DOMAIN}update-user-login"
+    data = {"user_id": user_id, "username": username, "key": key}
+
+    response = requests.post(url, data=data)
+    print("Response:", response.json())
+
+
 def get_users():
     url = f"{DOMAIN}users"
 
