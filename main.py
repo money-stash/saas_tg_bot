@@ -6,7 +6,7 @@ from aiogram.client.default import DefaultBotProperties
 from middlewares.user_info import UserInfoMiddleware
 
 from handlers.user import user_commands, login, update_login
-from callbacks.user import back_to_main, open_sessions_menu
+from callbacks.user import back_to_main, open_sessions_menu, open_session_info
 
 from config import TOKEN
 
@@ -24,6 +24,7 @@ async def main():
         back_to_main.router,
         open_sessions_menu.router,
         update_login.router,
+        open_session_info.router,
     )
 
     await bot.delete_webhook(drop_pending_updates=True)

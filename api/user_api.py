@@ -34,6 +34,20 @@ def get_key_info(key):
     return response.json()
 
 
+def get_sessions_info():
+    url = f"{DOMAIN}get-all-sessions"
+
+    response = requests.get(url)
+    return response.json()
+
+
+def get_session_info(session_id):
+    url = f"{DOMAIN}get-session-by-id/{session_id}"
+    data = {"session_id": session_id}
+
+    response = requests.get(url)
+    return response.text
+
+
 # if __name__ == "__main__":
-#     add_new_user()
-#     get_users()
+#     print(get_session_info(1))

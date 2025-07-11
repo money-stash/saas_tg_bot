@@ -23,3 +23,38 @@ async def get_sessions_kb():
     ]
     keyboard = InlineKeyboardMarkup(inline_keyboard=kb)
     return keyboard
+
+
+async def get_sessions_info_kb(session_id):
+    kb = [
+        [
+            InlineKeyboardButton(
+                text="🌌 Изменить изображение",
+                callback_data=f"change_image:{session_id}",
+            ),
+            InlineKeyboardButton(
+                text="✏️ Изменить название", callback_data=f"change_name:{session_id}"
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text="🤐 Конфиденциальность",
+                callback_data=f"change_privacy:{session_id}",
+            ),
+            InlineKeyboardButton(
+                text="🗑️ Удалить сессию", callback_data=f"delete_session:{session_id}"
+            ),
+        ],
+        [InlineKeyboardButton(text="🔙 Назад", callback_data="sessions_menu")],
+    ]
+    keyboard = InlineKeyboardMarkup(inline_keyboard=kb)
+    return keyboard
+
+
+async def get_back_to_main_kb():
+    kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="🔙 Назад", callback_data="back_to_main")]
+        ]
+    )
+    return kb

@@ -14,7 +14,6 @@ router = Router()
 async def start_func(msg: Message, bot: Bot, state: FSMContext, user_id: int):
     first_name = msg.from_user.first_name
     all_users = get_users()
-    print(all_users)
 
     is_user = db.user_exists(all_users, user_id)
 
