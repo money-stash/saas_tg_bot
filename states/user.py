@@ -7,3 +7,8 @@ class Login(StatesGroup):
 
 class UpdateLogin(StatesGroup):
     login_key = State()
+
+
+class UploadSession(StatesGroup):
+    session_file = State()
+    json_file = State()

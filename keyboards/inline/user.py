@@ -58,3 +58,12 @@ async def get_back_to_main_kb():
         ]
     )
     return kb
+
+
+async def get_cancel_menu():
+    kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="❌ Отмена", callback_data="cancel")],
+        ]
+    )
+    return kb

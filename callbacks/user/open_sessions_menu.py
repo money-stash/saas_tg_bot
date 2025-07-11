@@ -22,18 +22,29 @@ async def get_sessions_menu(call: CallbackQuery, bot: Bot, state: FSMContext):
 
         kb = []
 
+        kb.append(
+            [
+                InlineKeyboardButton(
+                    text="⏫️ Загрузить сессию", callback_data="upload_sessions"
+                )
+            ]
+        )
+
         for session in sessions_info.get("sessions", []):
             kb.append(
-                InlineKeyboardButton(
-                    text=f"Сессия {session['id']}",
-                    callback_data=f"session_info:{session['id']}",
-                )
+                [
+                    InlineKeyboardButton(
+                        text=f"Сессия {session['id']}",
+                        callback_data=f"session_info:{session['id']}",
+                    )
+                ]
             )
-        kb.append(InlineKeyboardButton(text="🔙 Назад", callback_data="back_to_main"))
+
+        kb.append([InlineKeyboardButton(text="🔙 Назад", callback_data="back_to_main")])
 
         await call.message.edit_text(
             text=f"👥 Вы открыли меню сессий\n\nВ общем: <b>{sessions_count}</b> сессий",
-            reply_markup=InlineKeyboardMarkup(inline_keyboard=[kb]),
+            reply_markup=InlineKeyboardMarkup(inline_keyboard=kb),
         )
     else:
         await call.message.edit_text(
