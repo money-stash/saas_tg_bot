@@ -25,7 +25,7 @@ async def get_sessions_kb():
     return keyboard
 
 
-async def get_sessions_info_kb(session_id):
+async def get_sessions_info_kb(session_id, conf):
     kb = [
         [
             InlineKeyboardButton(
@@ -36,17 +36,37 @@ async def get_sessions_info_kb(session_id):
                 text="✏️ Изменить название", callback_data=f"change_name:{session_id}"
             ),
         ],
+    ]
+
+    if conf:
+        kb.append(
+            [
+                InlineKeyboardButton(
+                    text="Закрыть приватность",
+                    callback_data=f"close_privacy:{session_id}",
+                ),
+            ],
+        )
+    else:
+        kb.append(
+            [
+                InlineKeyboardButton(
+                    text="Открыть приватность",
+                    callback_data=f"open_privacy:{session_id}",
+                ),
+            ],
+        )
+
+    kb.append(
         [
-            InlineKeyboardButton(
-                text="🤐 Конфиденциальность",
-                callback_data=f"change_privacy:{session_id}",
-            ),
             InlineKeyboardButton(
                 text="🗑️ Удалить сессию", callback_data=f"delete_session:{session_id}"
             ),
-        ],
+        ]
+    )
+    kb.append(
         [InlineKeyboardButton(text="🔙 Назад", callback_data="sessions_menu")],
-    ]
+    )
     keyboard = InlineKeyboardMarkup(inline_keyboard=kb)
     return keyboard
 

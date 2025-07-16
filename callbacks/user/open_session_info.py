@@ -1,3 +1,5 @@
+import json
+
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram import Router, F, Bot
 from aiogram.fsm.context import FSMContext
@@ -19,11 +21,30 @@ async def get_session_info_hndlr(call: CallbackQuery, bot: Bot, state: FSMContex
 
     if db.user_exists(all_users, user_id):
         session_id = call.data.split(":")[1]
-        session_info = get_session_info(session_id)
+        session_data = get_session_info(session_id)
+        session_info = json.loads(session_data)["session"]
+
+        msg_text = "ℹ️ Информация о сессии\n\n"
+        msg_text += f"🆔 аккаунта сессии: {session_info['account_id']}\n"
+        msg_text += (
+            f"📛 Полное имя: {session_info['first_name']} {session_info['last_name']}\n"
+        )
+        if session_info["username"]:
+            msg_text += f"🫆 Имя пользователя: @{session_info['username']}\n"
+        else:
+            msg_text += "❌ Имя пользователя: не указано\n"
+
+        if session_info["is_valid"]:
+            msg_text += "✅ Сессия валидна\n"
+        else:
+            msg_text += "❌ Сессия невалидна\n"
+
         if session_info:
             await call.message.edit_text(
-                text=f"Информация о сессии {session_id}:\n{session_info}",
-                reply_markup=await get_sessions_info_kb(session_id),
+                text=msg_text,
+                reply_markup=await get_sessions_info_kb(
+                    session_id, conf=session_info["is_private"]
+                ),
             )
         else:
             await call.message.edit_text(
