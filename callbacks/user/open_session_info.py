@@ -1,6 +1,6 @@
 import json
 
-from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.types import CallbackQuery
 from aiogram import Router, F, Bot
 from aiogram.fsm.context import FSMContext
 

@@ -43,7 +43,6 @@ def get_sessions_info():
 
 def get_session_info(session_id):
     url = f"{DOMAIN}get-session-by-id/{session_id}"
-    data = {"session_id": session_id}
 
     response = requests.get(url)
     return response.text
@@ -70,6 +69,14 @@ def upload_session_files(session_file_path, json_file_path):
         ]
         response = requests.post(url, files=files, allow_redirects=True)
 
+    return response.json()
+
+
+def open_session_privacy(session_id):
+    url = f"{DOMAIN}open-privacy"
+    data = {"session_id": session_id}
+
+    response = requests.post(url, data=data)
     return response.json()
 
 
