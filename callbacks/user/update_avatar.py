@@ -12,7 +12,7 @@ import os
 from database.db import db
 from states.user import UpdateAvatar
 from api.user_api import get_session_info, get_users, upload_avatar
-from keyboards.inline.user import get_cancel_menu
+from keyboards.inline.user import get_cancel_menu, get_back_to_main_kb
 
 router = Router()
 
@@ -26,8 +26,12 @@ async def start_update_avatar(call: CallbackQuery, bot: Bot, state: FSMContext):
     if db.user_exists(all_users, user_id):
         session_id = call.data.split(":", 1)[1]
 
-        await state.update_data({"session_id": session_id})
+        await state.update_data(
+            {"session_id": session_id, "msg_id": call.message.message_id}
+        )
+
         await state.set_state(UpdateAvatar.avatar)
+
         await bot.edit_message_text(
             text="📸 Отправьте новое изображение для сессии",
             chat_id=call.from_user.id,
@@ -54,9 +58,24 @@ async def receive_avatar(message: Message, bot: Bot, state: FSMContext):
         avatar_path=destination,
     )
 
+    await bot.delete_message(
+        chat_id=message.from_user.id,
+        message_id=message.message_id,
+    )
+
     try:
         os.remove(destination)
     except:
         pass
 
-    await message.answer(f"Файл загружен: {response}")
+    if response["success"] is True:
+        response = "Аватар успешно обновлен."
+    else:
+        response = f"Ошибка при обновлении аватара."
+
+    await bot.edit_message_text(
+        text="✅ Аватар обновлен.",
+        chat_id=message.from_user.id,
+        message_id=data.get("msg_id"),
+        reply_markup=await get_back_to_main_kb(),
+    )

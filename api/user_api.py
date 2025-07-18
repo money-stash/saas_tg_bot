@@ -1,3 +1,4 @@
+import json
 import requests
 
 DOMAIN = "http://localhost:5555/"
@@ -81,7 +82,6 @@ def open_session_privacy(session_id):
 
 
 def upload_avatar(session_id: str, avatar_path: str) -> dict:
-
     url = f"{DOMAIN}upload-avatar-api/{session_id}"
 
     with open(avatar_path, "rb") as f:
@@ -89,6 +89,33 @@ def upload_avatar(session_id: str, avatar_path: str) -> dict:
         response = requests.post(url, files=files)
 
     return response.json()
+
+
+def update_first_name(session_id: str, new_name: str) -> dict:
+    url = f"{DOMAIN}change-name"
+
+    data = {"session_id": session_id, "first_name": new_name}
+    response = requests.post(url, data=data)
+
+    return json.loads(response.text)
+
+
+def update_surname(session_id: str, new_surname: str) -> dict:
+    url = f"{DOMAIN}change-surname"
+
+    data = {"session_id": session_id, "surname": new_surname}
+    response = requests.post(url, data=data)
+
+    return json.loads(response.text)
+
+
+def update_username(session_id: str, new_username: str) -> dict:
+    url = f"{DOMAIN}change-username"
+
+    data = {"session_id": session_id, "username": new_username}
+    response = requests.post(url, data=data)
+
+    return json.loads(response.text)
 
 
 # if __name__ == "__main__":

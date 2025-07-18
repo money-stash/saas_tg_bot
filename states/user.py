@@ -16,3 +16,15 @@ class UploadSession(StatesGroup):
 
 class UpdateAvatar(StatesGroup):
     avatar = State()
+
+
+class ChangeName(StatesGroup):
+    name = State()
+
+
+class ChangeSurname(StatesGroup):
+    surname = State()
+
+
+class ChangeUsername(StatesGroup):
+    username = State()

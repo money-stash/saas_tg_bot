@@ -32,8 +32,21 @@ async def get_sessions_info_kb(session_id, conf):
                 text="🌌 Изменить изображение",
                 callback_data=f"change_image:{session_id}",
             ),
+        ],
+        [
             InlineKeyboardButton(
-                text="✏️ Изменить название", callback_data=f"change_name:{session_id}"
+                text="✏️ Изменить имя", callback_data=f"change_name:{session_id}"
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text="✏️ Изменить фамилию", callback_data=f"change_surname:{session_id}"
+            ),
+        ],
+        [
+            InlineKeyboardButton(
+                text="✏️ Изменить username",
+                callback_data=f"change_username:{session_id}",
             ),
         ],
     ]
