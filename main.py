@@ -13,6 +13,7 @@ from callbacks.user import (
     upload_sessions,
     cancel,
     open_privacy,
+    update_avatar,
 )
 
 from config import TOKEN
@@ -35,6 +36,7 @@ async def main():
         upload_sessions.router,
         cancel.router,
         open_privacy.router,
+        update_avatar.router,
     )
 
     await bot.delete_webhook(drop_pending_updates=True)

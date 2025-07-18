@@ -80,5 +80,16 @@ def open_session_privacy(session_id):
     return response.json()
 
 
+def upload_avatar(session_id: str, avatar_path: str) -> dict:
+
+    url = f"{DOMAIN}upload-avatar-api/{session_id}"
+
+    with open(avatar_path, "rb") as f:
+        files = {"avatar": (avatar_path, f, "image/jpeg")}
+        response = requests.post(url, files=files)
+
+    return response.json()
+
+
 # if __name__ == "__main__":
 #     print(get_session_info(1))

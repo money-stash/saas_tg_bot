@@ -12,3 +12,7 @@ class UpdateLogin(StatesGroup):
 class UploadSession(StatesGroup):
     session_file = State()
     json_file = State()
+
+
+class UpdateAvatar(StatesGroup):
+    avatar = State()
