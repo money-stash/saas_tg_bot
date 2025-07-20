@@ -17,11 +17,11 @@ async def get_session_info_hndlr(call: CallbackQuery, bot: Bot, state: FSMContex
     await state.clear()
     user_id = call.from_user.id
 
-    all_users = get_users()
+    all_users = await get_users()
 
     if db.user_exists(all_users, user_id):
         session_id = call.data.split(":")[1]
-        session_data = get_session_info(session_id)
+        session_data = await get_session_info(session_id)
         session_info = json.loads(session_data)["session"]
 
         msg_text = "ℹ️ Информация о сессии\n\n"

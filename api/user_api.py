@@ -1,121 +1,121 @@
 import json
-import requests
+import aiohttp
+import asyncio
 
 DOMAIN = "http://localhost:5555/"
 
 
-def add_new_user(user_id, username, key):
+async def add_new_user(user_id, username, key):
     url = f"{DOMAIN}add-user"
     data = {"user_id": user_id, "username": username, "key": key}
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, data=data) as response:
+            print("Response:", await response.json())
 
-    response = requests.post(url, data=data)
-    print("Response:", response.json())
 
-
-def update_add_new_user(user_id, username, key):
+async def update_add_new_user(user_id, username, key):
     url = f"{DOMAIN}update-user-login"
     data = {"user_id": user_id, "username": username, "key": key}
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, data=data) as response:
+            print("Response:", await response.json())
 
-    response = requests.post(url, data=data)
-    print("Response:", response.json())
 
-
-def get_users():
+async def get_users():
     url = f"{DOMAIN}users"
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            return await response.json()
 
-    response = requests.get(url)
-    return response.json()
 
-
-def get_key_info(key):
+async def get_key_info(key):
     url = f"{DOMAIN}get_key_info"
     data = {"key": key}
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, data=data) as response:
+            return await response.json()
 
-    response = requests.post(url, data=data)
-    return response.json()
 
-
-def get_sessions_info():
+async def get_sessions_info():
     url = f"{DOMAIN}get-all-sessions"
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            return await response.json()
 
-    response = requests.get(url)
-    return response.json()
 
-
-def get_session_info(session_id):
+async def get_session_info(session_id):
     url = f"{DOMAIN}get-session-by-id/{session_id}"
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            return await response.text()
 
-    response = requests.get(url)
-    return response.text
 
-
-def upload_session_files(session_file_path, json_file_path):
+async def upload_session_files(session_file_path, json_file_path):
     url = f"{DOMAIN}upload-session-from-bot"
-    with open(session_file_path, "rb") as session_file, open(
-        json_file_path, "rb"
-    ) as json_file:
-        files = [
-            (
+    async with aiohttp.ClientSession() as session:
+        with open(session_file_path, "rb") as session_file, open(
+            json_file_path, "rb"
+        ) as json_file:
+            data = aiohttp.FormData()
+            data.add_field(
                 "session_files",
-                (
-                    session_file_path.split("/")[-1],
-                    session_file,
-                    "application/octet-stream",
-                ),
-            ),
-            (
+                session_file,
+                filename=session_file_path.split("/")[-1],
+                content_type="application/octet-stream",
+            )
+            data.add_field(
                 "session_files",
-                (json_file_path.split("/")[-1], json_file, "application/json"),
-            ),
-        ]
-        response = requests.post(url, files=files, allow_redirects=True)
+                json_file,
+                filename=json_file_path.split("/")[-1],
+                content_type="application/json",
+            )
+            async with session.post(url, data=data, allow_redirects=True) as response:
+                return await response.json()
 
-    return response.json()
 
-
-def open_session_privacy(session_id):
+async def open_session_privacy(session_id):
     url = f"{DOMAIN}open-privacy"
     data = {"session_id": session_id}
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, data=data) as response:
+            return await response.json()
 
-    response = requests.post(url, data=data)
-    return response.json()
 
-
-def upload_avatar(session_id: str, avatar_path: str) -> dict:
+async def upload_avatar(session_id: str, avatar_path: str) -> dict:
     url = f"{DOMAIN}upload-avatar-api/{session_id}"
+    async with aiohttp.ClientSession() as session:
+        with open(avatar_path, "rb") as f:
+            data = aiohttp.FormData()
+            data.add_field("avatar", f, filename=avatar_path, content_type="image/jpeg")
+            async with session.post(url, data=data) as response:
+                return await response.json()
 
-    with open(avatar_path, "rb") as f:
-        files = {"avatar": (avatar_path, f, "image/jpeg")}
-        response = requests.post(url, files=files)
 
-    return response.json()
-
-
-def update_first_name(session_id: str, new_name: str) -> dict:
+async def update_first_name(session_id: str, new_name: str) -> dict:
     url = f"{DOMAIN}change-name"
-
     data = {"session_id": session_id, "first_name": new_name}
-    response = requests.post(url, data=data)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, data=data) as response:
+            text = await response.text()
+            return json.loads(text)
 
-    return json.loads(response.text)
 
-
-def update_surname(session_id: str, new_surname: str) -> dict:
+async def update_surname(session_id: str, new_surname: str) -> dict:
     url = f"{DOMAIN}change-surname"
-
     data = {"session_id": session_id, "surname": new_surname}
-    response = requests.post(url, data=data)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, data=data) as response:
+            text = await response.text()
+            return json.loads(text)
 
-    return json.loads(response.text)
 
-
-def update_username(session_id: str, new_username: str) -> dict:
+async def update_username(session_id: str, new_username: str) -> dict:
     url = f"{DOMAIN}change-username"
-
     data = {"session_id": session_id, "username": new_username}
-    response = requests.post(url, data=data)
-
-    return json.loads(response.text)
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, data=data) as response:
+            text = await response.text()
+            return json.loads(text)
 
 
 # if __name__ == "__main__":

@@ -37,14 +37,14 @@ async def start_update_surname(call: CallbackQuery, bot: Bot, state: FSMContext)
 @router.message(F.text, ChangeSurname.surname)
 async def update_surname_hndlr(msg: Message, bot: Bot, state: FSMContext):
     user_id = msg.from_user.id
-    all_users = get_users()
+    all_users = await get_users()
 
     if db.user_exists(all_users, user_id):
         data = await state.get_data()
         session_id = data["session_id"]
         new_name = msg.text.strip()
 
-        session_data = get_session_info(session_id)
+        session_data = await get_session_info(session_id)
         session_info = json.loads(session_data)["session"]
 
         if not new_name:
@@ -57,7 +57,7 @@ async def update_surname_hndlr(msg: Message, bot: Bot, state: FSMContext):
         )
 
         session_info["surname"] = new_name
-        is_updated = update_surname(session_id, new_name)
+        is_updated = await update_surname(session_id, new_name)
 
         if is_updated["success"] is False:
             msg_text = "❌ Ошибка при обновлении фамилии сессии. Попробуйте позже."

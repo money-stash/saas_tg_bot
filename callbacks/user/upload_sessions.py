@@ -16,7 +16,7 @@ async def get_upload_session(call: CallbackQuery, bot: Bot, state: FSMContext):
     await state.clear()
     user_id = call.from_user.id
 
-    all_users = get_users()
+    all_users = await get_users()
     if db.user_exists(all_users, user_id):
         await call.message.edit_text(
             text="Отправьте файл сессии в формате .session",
@@ -73,7 +73,7 @@ async def upload_json_file(message: Message, bot: Bot, state: FSMContext):
         session_file_path = data["session_file"]
         json_file_path = f"downloads/{user_id}.json"
 
-        upload_response = upload_session_files(session_file_path, json_file_path)
+        upload_response = await upload_session_files(session_file_path, json_file_path)
 
         if upload_response.get("success") == True:
             await bot.send_message(

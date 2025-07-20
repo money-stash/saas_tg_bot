@@ -15,9 +15,9 @@ async def get_sessions_menu(call: CallbackQuery, bot: Bot, state: FSMContext):
     await state.clear()
     user_id = call.from_user.id
 
-    all_users = get_users()
+    all_users = await get_users()
     if db.user_exists(all_users, user_id):
-        sessions_info = get_sessions_info()
+        sessions_info = await get_sessions_info()
         sessions_count = len(sessions_info.get("sessions", []))
 
         kb = []

@@ -22,7 +22,7 @@ async def start_update_avatar(call: CallbackQuery, bot: Bot, state: FSMContext):
     await state.clear()
     user_id = call.from_user.id
 
-    all_users = get_users()
+    all_users = await get_users()
     if db.user_exists(all_users, user_id):
         session_id = call.data.split(":", 1)[1]
 
@@ -53,7 +53,7 @@ async def receive_avatar(message: Message, bot: Bot, state: FSMContext):
 
     await bot.download_file(path, destination)
 
-    response = upload_avatar(
+    response = await upload_avatar(
         session_id=data.get("session_id"),
         avatar_path=destination,
     )

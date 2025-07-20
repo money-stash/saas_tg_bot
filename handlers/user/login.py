@@ -16,7 +16,7 @@ async def start_func(msg: Message, bot: Bot, state: FSMContext, user_id: int):
 
     key = msg.text
 
-    key_info = get_key_info(key)
+    key_info = await get_key_info(key)
 
     if key_info["key_info"] == False:
         await msg.answer("❌ Такого ключа не существует!")
@@ -25,7 +25,7 @@ async def start_func(msg: Message, bot: Bot, state: FSMContext, user_id: int):
         if int(key_data["user_id"]) != 0:
             await msg.answer("⁉️ Этот ключ уже используется!")
         else:
-            add_new_user(user_id, username, key)
+            await add_new_user(user_id, username, key)
 
             await msg.answer(
                 "🥳 Вы успешно зарегестрировались", reply_markup=await get_main_kb()

@@ -16,7 +16,7 @@ async def get_back_to_main(
 ):
     await state.clear()
     first_name = call.from_user.first_name
-    all_users = get_users()
+    all_users = await get_users()
 
     is_user = db.user_exists(all_users, user_id)
 
