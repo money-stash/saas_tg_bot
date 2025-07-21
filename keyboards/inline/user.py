@@ -100,3 +100,14 @@ async def get_cancel_menu():
         ]
     )
     return kb
+
+
+async def get_newtask_types_menu():
+    kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="Спам", callback_data="new_task_spam")],
+            [InlineKeyboardButton(text="Парсинг", callback_data="new_task_parse")],
+            [InlineKeyboardButton(text="❌ Отмена", callback_data="cancel")],
+        ]
+    )
+    return kb

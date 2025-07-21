@@ -118,5 +118,15 @@ async def update_username(session_id: str, new_username: str) -> dict:
             return json.loads(text)
 
 
+async def create_parse_task(group_identifier, worker_id) -> dict:
+    url = f"{DOMAIN}create-parse-task"
+    data = {"group_identifier": group_identifier, "worker_id": worker_id}
+
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, json=data) as response:
+            text = await response.text()
+            return json.loads(text)
+
+
 # if __name__ == "__main__":
 #     print(get_session_info(1))

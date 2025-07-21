@@ -17,6 +17,7 @@ from callbacks.user import (
     change_name,
     change_lastname,
     change_username,
+    launch_task,
 )
 
 from config import TOKEN
@@ -43,6 +44,7 @@ async def main():
         change_name.router,
         change_lastname.router,
         change_username.router,
+        launch_task.router,
     )
 
     await bot.delete_webhook(drop_pending_updates=True)

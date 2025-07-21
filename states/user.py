@@ -28,3 +28,8 @@ class ChangeSurname(StatesGroup):
 
 class ChangeUsername(StatesGroup):
     username = State()
+
+
+class CreateNewTask(StatesGroup):
+    group_identifier = State()
+    task_type = State()
