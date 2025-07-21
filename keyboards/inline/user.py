@@ -111,3 +111,17 @@ async def get_newtask_types_menu():
         ]
     )
     return kb
+
+
+async def get_report_info_kb(report_id):
+    kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text="⬇️ Скачать отчёт", callback_data=f"download_report_{report_id}"
+                )
+            ],
+            [InlineKeyboardButton(text="🔙 Назад", callback_data="back_to_main")],
+        ]
+    )
+    return kb

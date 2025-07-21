@@ -50,6 +50,16 @@ async def get_session_info(session_id):
             return await response.text()
 
 
+async def get_all_reports():
+    url = f"{DOMAIN}all-reports"
+
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            answer = await response.text()
+            json_answer = json.loads(answer)
+            return json_answer["reports"]
+
+
 async def upload_session_files(session_file_path, json_file_path):
     url = f"{DOMAIN}upload-session-from-bot"
     async with aiohttp.ClientSession() as session:
@@ -126,6 +136,31 @@ async def create_parse_task(group_identifier, worker_id) -> dict:
         async with session.post(url, json=data) as response:
             text = await response.text()
             return json.loads(text)
+
+
+async def get_report_info(report_id) -> dict:
+    url = f"{DOMAIN}get_report"
+    data = {"report_id": report_id}
+
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, json=data) as response:
+            text = await response.text()
+            return json.loads(text)
+
+
+async def download_report_file(path: str, save_as: str) -> bool:
+    url = f"{DOMAIN}download-report"
+    payload = {"path": path}
+
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, json=payload) as response:
+            if response.status == 200:
+                with open(save_as, "wb") as f:
+                    f.write(await response.read())
+                return save_as
+            else:
+                print("Ошибка загрузки:", await response.text())
+                return False
 
 
 # if __name__ == "__main__":
