@@ -51,7 +51,7 @@ async def get_session_info(session_id):
 
 
 async def get_all_reports():
-    url = f"{DOMAIN}all-reports"
+    url = f"{DOMAIN}reports"
 
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
@@ -161,6 +161,21 @@ async def download_report_file(path: str, save_as: str) -> bool:
             else:
                 print("Ошибка загрузки:", await response.text())
                 return False
+
+
+async def create_spam_task(dataset_path, worker_id, messages_count, msg_text):
+    url = f"{DOMAIN}start-spam"
+    payload = {
+        "users_path": dataset_path,
+        "worker_id": worker_id,
+        "messages_count": messages_count,
+        "msg_text": msg_text,
+    }
+
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, json=payload) as response:
+            text = await response.text()
+            return json.loads(text)
 
 
 # if __name__ == "__main__":

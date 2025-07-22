@@ -33,3 +33,5 @@ class ChangeUsername(StatesGroup):
 class CreateNewTask(StatesGroup):
     group_identifier = State()
     task_type = State()
+    accept_spam = State()
+    msg_text = State()
