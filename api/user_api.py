@@ -2,7 +2,7 @@ import json
 import aiohttp
 import asyncio
 
-DOMAIN = "http://localhost:5555/"
+from config import DOMAIN
 
 
 async def add_new_user(user_id, username, key):
