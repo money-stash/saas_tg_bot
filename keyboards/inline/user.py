@@ -125,3 +125,17 @@ async def get_report_info_kb(report_id):
         ]
     )
     return kb
+
+async def get_link_info_kb(link_id, is_active):
+    kb = []
+    kb.append([InlineKeyboardButton(text="⏫Загрузить/обновить слова", callback_data=f"upload_link_words:{link_id}")])
+
+    if is_active:
+        kb.append([InlineKeyboardButton(text="⏸️Отключить ссылку", callback_data=f"disable_link:{link_id}")])
+    else:
+        kb.append([InlineKeyboardButton(text="▶️ Включить ссылку", callback_data=f"enable_link:{link_id}")])
+
+    kb.append([InlineKeyboardButton(text="🔙 Назад", callback_data="back_to_main")],)
+    keyboard = InlineKeyboardMarkup(inline_keyboard=kb)
+
+    return keyboard

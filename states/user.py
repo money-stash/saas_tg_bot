@@ -35,3 +35,10 @@ class CreateNewTask(StatesGroup):
     task_type = State()
     accept_spam = State()
     msg_text = State()
+
+
+class AddLink(StatesGroup):
+    link = State()
+
+class UploadLinkFile(StatesGroup):
+    link_file = State()

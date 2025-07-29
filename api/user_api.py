@@ -1,3 +1,4 @@
+import os
 import json
 import aiohttp
 import asyncio
@@ -178,5 +179,74 @@ async def create_spam_task(dataset_path, worker_id, messages_count, msg_text):
             return json.loads(text)
 
 
+async def delete_session_api(session_id):
+    url = f"{DOMAIN}delete-session"
+    payload = {
+        "session_id": session_id,
+    }
+
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, data=payload) as response:
+            return True
+
+
+async def get_all_links():
+    url = f"{DOMAIN}links"
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            return await response.json()
+
+async def delete_link(link_id: int):
+    url = f"{DOMAIN}delete-link/{link_id}"
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, data={"link_id": link_id}) as resp:
+            return await resp.json()
+
+async def add_link(link: str, link_name: str):
+    url = f"{DOMAIN}add-link"
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, data={"link": link, "spam_text": False, "link_name": link_name}) as resp:
+            return await resp.json()
+
+async def get_link(link_id: int):
+    url = f"{DOMAIN}get-link"
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, data={"link_id": link_id}) as resp:
+            return await resp.json()
+
+
+async def check_link(link: str):
+    url = f"{DOMAIN}check-link"
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, data={"link": link}) as resp:
+            return await resp.json()
+
+
+async def update_status(link_id: int, status: bool):
+    url = f"{DOMAIN}update-status"
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, data={"link_id": link_id, "status": str(status)}) as resp:
+            return await resp.json()
+
+
+async def upload_file_to_link(file_path: str, link_id: int):
+    url = f"{DOMAIN}upload-file"
+    if not os.path.isfile(file_path):
+        return {"success": False, "error": "Файл не найден"}
+
+    async with aiohttp.ClientSession() as session:
+        with open(file_path, "rb") as f:
+            form = aiohttp.FormData()
+            form.add_field("file", f, filename=os.path.basename(file_path), content_type="text/plain")
+            form.add_field("link_id", str(link_id))
+
+            async with session.post(url, data=form) as resp:
+                return await resp.json()
+
+
+async def main():
+    print(await check_link("oko_ua"))
+
+
 # if __name__ == "__main__":
-#     print(get_session_info(1))
+#     asyncio.run(main())

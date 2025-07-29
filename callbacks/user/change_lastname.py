@@ -2,12 +2,9 @@ import json
 from aiogram.types import (
     CallbackQuery,
     Message,
-    PhotoSize,
 )
 from aiogram import Router, F, Bot
 from aiogram.fsm.context import FSMContext
-
-import os
 
 from database.db import db
 from states.user import ChangeSurname

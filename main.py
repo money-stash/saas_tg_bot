@@ -21,6 +21,12 @@ from callbacks.user import (
     report_menu,
     open_report_info,
     download_report,
+    open_links_menu,
+    delete_session,
+    add_link,
+    open_link,
+    upload_link_words,
+    links_enabler
 )
 
 from config import TOKEN
@@ -51,6 +57,12 @@ async def main():
         report_menu.router,
         open_report_info.router,
         download_report.router,
+        open_links_menu.router,
+        delete_session.router,
+        add_link.router,
+        open_link.router,
+        upload_link_words.router,
+        links_enabler.router
     )
 
     await bot.delete_webhook(drop_pending_updates=True)
