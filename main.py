@@ -26,7 +26,8 @@ from callbacks.user import (
     add_link,
     open_link,
     upload_link_words,
-    links_enabler
+    links_enabler,
+    change_bio_hndlr
 )
 
 from config import TOKEN
@@ -62,7 +63,8 @@ async def main():
         add_link.router,
         open_link.router,
         upload_link_words.router,
-        links_enabler.router
+        links_enabler.router,
+        change_bio_hndlr.router
     )
 
     await bot.delete_webhook(drop_pending_updates=True)

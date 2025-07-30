@@ -49,6 +49,12 @@ async def get_sessions_info_kb(session_id, conf):
                 callback_data=f"change_username:{session_id}",
             ),
         ],
+        [
+            InlineKeyboardButton(
+                text="✏️ Изменить bio",
+                callback_data=f"change_bio:{session_id}",
+            ),
+        ],
     ]
 
     if conf:

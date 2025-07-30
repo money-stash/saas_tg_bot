@@ -26,6 +26,10 @@ class ChangeSurname(StatesGroup):
     surname = State()
 
 
+class ChangeBio(StatesGroup):
+    bio = State()
+
+
 class ChangeUsername(StatesGroup):
     username = State()
 

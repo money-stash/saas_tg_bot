@@ -39,6 +39,8 @@ async def get_session_info_hndlr(call: CallbackQuery, bot: Bot, state: FSMContex
         else:
             msg_text += "❌ Сессия невалидна\n"
 
+        msg_text += f"👤 BIO: {session_info['bio']}\n"
+
         if session_info:
             await call.message.edit_text(
                 text=msg_text,

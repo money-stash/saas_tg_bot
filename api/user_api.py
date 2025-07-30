@@ -120,6 +120,15 @@ async def update_surname(session_id: str, new_surname: str) -> dict:
             return json.loads(text)
 
 
+async def update_bio(session_id: str, new_bio: str) -> dict:
+    url = f"{DOMAIN}change-bio"
+    data = {"session_id": session_id, "bio": new_bio}
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, data=data) as response:
+            text = await response.text()
+            return json.loads(text)
+
+
 async def update_username(session_id: str, new_username: str) -> dict:
     url = f"{DOMAIN}change-username"
     data = {"session_id": session_id, "username": new_username}
