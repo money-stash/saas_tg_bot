@@ -84,9 +84,17 @@ async def upload_session_files(session_file_path, json_file_path):
                 return await response.json()
 
 
-async def open_session_privacy(session_id):
-    url = f"{DOMAIN}open-privacy"
-    data = {"session_id": session_id}
+async def close_session_privacy(session_id, privacy_key_name):
+    url = f"{DOMAIN}close-privacy"
+    data = {"session_id": session_id, "privacy_key_name": privacy_key_name}
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, data=data) as response:
+            return await response.json()
+
+
+async def open_session_privacy(session_id, privacy_key_name):
+    url = f"{DOMAIN}open-privacy-bot"
+    data = {"session_id": session_id, "privacy_key_name": privacy_key_name}
     async with aiohttp.ClientSession() as session:
         async with session.post(url, data=data) as response:
             return await response.json()
@@ -251,6 +259,26 @@ async def upload_file_to_link(file_path: str, link_id: int):
 
             async with session.post(url, data=form) as resp:
                 return await resp.json()
+
+
+async def create_token_bot(token_name) -> dict:
+    url = f"{DOMAIN}create_token_bot"
+    data = {"token_name": token_name}
+
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, json=data) as response:
+            text = await response.text()
+            return json.loads(text)
+
+
+async def ban_user_bot(username) -> dict:
+    url = f"{DOMAIN}ban_user_bot"
+    data = {"username": username}
+
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, json=data) as response:
+            text = await response.text()
+            return json.loads(text)
 
 
 async def main():

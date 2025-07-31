@@ -145,3 +145,13 @@ async def get_link_info_kb(link_id, is_active):
     keyboard = InlineKeyboardMarkup(inline_keyboard=kb)
 
     return keyboard
+
+
+async def get_back_to_session(session_id):
+    kb = [
+        [
+            InlineKeyboardButton(text="🔙 Назад", callback_data=f"session_info:{session_id}")
+        ]
+    ]
+    keyboard = InlineKeyboardMarkup(inline_keyboard=kb)
+    return keyboard

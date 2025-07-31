@@ -12,6 +12,7 @@ router = Router()
 
 @router.message(F.text == "/start")
 async def start_func(msg: Message, bot: Bot, state: FSMContext, user_id: int):
+    await state.clear()
     first_name = msg.from_user.first_name
     all_users = await get_users()
 
