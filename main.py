@@ -1,4 +1,6 @@
 import asyncio
+import os
+
 from aiogram import Bot, Dispatcher
 from aiogram.enums.parse_mode import ParseMode
 from aiogram.client.default import DefaultBotProperties
@@ -81,4 +83,8 @@ async def main():
 
 
 if __name__ == "__main__":
+    os.makedirs("sessions", exist_ok=True)
+    os.makedirs("downloads", exist_ok=True)
+    os.makedirs("images", exist_ok=True)
+
     asyncio.run(main())
