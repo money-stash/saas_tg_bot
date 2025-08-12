@@ -9,7 +9,7 @@ from aiogram.fsm.context import FSMContext
 from database.db import db
 from states.user import ChangeName
 from api.user_api import get_session_info, get_users, update_first_name
-from keyboards.inline.user import get_cancel_menu, get_back_to_main_kb
+from keyboards.inline.user import get_cancel_menu, get_back_to_session
 
 router = Router()
 
@@ -65,7 +65,7 @@ async def update_name_hndlr(msg: Message, bot: Bot, state: FSMContext):
             text=msg_text,
             chat_id=user_id,
             message_id=data["msg_id"],
-            reply_markup=await get_back_to_main_kb(),
+            reply_markup=await get_back_to_session(session_id),
         )
 
     else:

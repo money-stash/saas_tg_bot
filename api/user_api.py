@@ -213,17 +213,22 @@ async def get_all_links():
         async with session.get(url) as response:
             return await response.json()
 
+
 async def delete_link(link_id: int):
     url = f"{DOMAIN}delete-link/{link_id}"
     async with aiohttp.ClientSession() as session:
         async with session.post(url, data={"link_id": link_id}) as resp:
             return await resp.json()
 
+
 async def add_link(link: str, link_name: str):
     url = f"{DOMAIN}add-link"
     async with aiohttp.ClientSession() as session:
-        async with session.post(url, data={"link": link, "spam_text": False, "link_name": link_name}) as resp:
+        async with session.post(
+            url, data={"link": link, "spam_text": False, "link_name": link_name}
+        ) as resp:
             return await resp.json()
+
 
 async def get_link(link_id: int):
     url = f"{DOMAIN}get-link"
@@ -242,7 +247,9 @@ async def check_link(link: str):
 async def update_status(link_id: int, status: bool):
     url = f"{DOMAIN}update-status"
     async with aiohttp.ClientSession() as session:
-        async with session.post(url, data={"link_id": link_id, "status": str(status)}) as resp:
+        async with session.post(
+            url, data={"link_id": link_id, "status": str(status)}
+        ) as resp:
             return await resp.json()
 
 
@@ -254,7 +261,12 @@ async def upload_file_to_link(file_path: str, link_id: int):
     async with aiohttp.ClientSession() as session:
         with open(file_path, "rb") as f:
             form = aiohttp.FormData()
-            form.add_field("file", f, filename=os.path.basename(file_path), content_type="text/plain")
+            form.add_field(
+                "file",
+                f,
+                filename=os.path.basename(file_path),
+                content_type="text/plain",
+            )
             form.add_field("link_id", str(link_id))
 
             async with session.post(url, data=form) as resp:
@@ -279,6 +291,18 @@ async def ban_user_bot(username) -> dict:
         async with session.post(url, json=data) as response:
             text = await response.text()
             return json.loads(text)
+
+
+async def delete_link_request(link_id: int):
+    url = f"{DOMAIN}delete-link-api"
+    data = {"link_id": link_id}  # form-data, т.к. request.form используется
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, data=data) as resp:
+            text = await resp.text()
+            try:
+                return json.loads(text)
+            except json.JSONDecodeError:
+                return {"error": f"Invalid JSON response: {text}"}
 
 
 async def main():

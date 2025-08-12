@@ -12,7 +12,7 @@ import os
 from database.db import db
 from states.user import UpdateAvatar
 from api.user_api import get_session_info, get_users, upload_avatar
-from keyboards.inline.user import get_cancel_menu, get_back_to_main_kb
+from keyboards.inline.user import get_cancel_menu, get_back_to_session
 
 router = Router()
 
@@ -77,5 +77,5 @@ async def receive_avatar(message: Message, bot: Bot, state: FSMContext):
         text="✅ Аватар обновлен.",
         chat_id=message.from_user.id,
         message_id=data.get("msg_id"),
-        reply_markup=await get_back_to_main_kb(),
+        reply_markup=await get_back_to_session(data.get("session_id")),
     )

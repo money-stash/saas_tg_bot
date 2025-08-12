@@ -32,7 +32,8 @@ from callbacks.user import (
     links_enabler,
     change_bio_hndlr,
     hide_action,
-    open_action
+    open_action,
+    delete_link,
 )
 
 from config import TOKEN
@@ -75,7 +76,8 @@ async def main():
         stats.router,
         ban_user.router,
         hide_action.router,
-        open_action.router
+        open_action.router,
+        delete_link.router,
     )
 
     await bot.delete_webhook(drop_pending_updates=True)

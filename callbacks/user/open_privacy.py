@@ -4,7 +4,7 @@ from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMar
 from aiogram import Router, F, Bot
 from aiogram.fsm.context import FSMContext
 
-from api.user_api import get_users, get_sessions_info
+from api.user_api import get_users, get_sessions_info, open_session_privacy
 
 router = Router()
 
@@ -18,7 +18,7 @@ async def open_privacy(
     session_id = callback.data.split(":")[1]
     user_id = callback.from_user.id
 
-    # api_answer = await open_session_privacy(session_id)
+    api_answer = await open_session_privacy(session_id)
 
     sessions_info = await get_sessions_info()
 
