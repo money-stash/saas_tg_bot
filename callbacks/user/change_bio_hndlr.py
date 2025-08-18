@@ -24,7 +24,7 @@ async def start_update_bio(call: CallbackQuery, bot: Bot, state: FSMContext):
     await state.set_state(ChangeBio.bio)
 
     await bot.edit_message_text(
-        text="✏️ Введите новое bio для сессии:",
+        text="✏️ Введите новое bio для сессии:\n\nЧТОБЫ УБРАТЬ БИО напишите: <i>None</i> или <i>none</i>",
         chat_id=call.from_user.id,
         message_id=call.message.message_id,
         reply_markup=await get_cancel_menu(),

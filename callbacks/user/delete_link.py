@@ -2,7 +2,7 @@ from aiogram.types import CallbackQuery
 from aiogram import Router, F, Bot
 
 from api.user_api import delete_link_request
-from keyboards.inline.user import get_back_to_main_kb
+from keyboards.inline.user import get_suc_add_link
 
 router = Router()
 
@@ -17,5 +17,5 @@ async def delete_link_info(call: CallbackQuery, bot: Bot, user_id: int):
         text="🔗 Ссылка успешно удалена.",
         chat_id=call.message.chat.id,
         message_id=call.message.message_id,
-        reply_markup=await get_back_to_main_kb(),
+        reply_markup=await get_suc_add_link(),
     )

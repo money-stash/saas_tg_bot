@@ -8,14 +8,16 @@ from aiogram.fsm.context import FSMContext
 
 from states.user import AddLink
 from api.user_api import check_link, add_link
-from keyboards.inline.user import get_cancel_menu, get_back_to_main_kb
+from keyboards.inline.user import get_cancel_menu, get_back_to_main_kb, get_suc_add_link
 
 
 router = Router()
 
 
 @router.callback_query(F.data == "add_link")
-async def add_link_route(call: CallbackQuery, bot: Bot, state: FSMContext, user_id: int):
+async def add_link_route(
+    call: CallbackQuery, bot: Bot, state: FSMContext, user_id: int
+):
     await bot.edit_message_text(
         chat_id=user_id,
         message_id=call.message.message_id,
@@ -35,22 +37,22 @@ async def end_add_link(message: Message, state: FSMContext, bot: Bot, user_id: i
         await bot.delete_message(chat_id=user_id, message_id=message.message_id)
 
         is_link_valid = await check_link(link)
-        if is_link_valid.get('exists')[0] is True:
-            await add_link(link, link_name=is_link_valid.get('exists')[1])
+        if is_link_valid.get("exists")[0] is True:
+            await add_link(link, link_name=is_link_valid.get("exists")[1])
             await state.update_data({"link": link})
             await bot.edit_message_text(
                 chat_id=user_id,
                 message_id=data["msg_id"],
                 text="✅ Канал успешно добавлен!\n📄 Загрузите тхт со словами",
-                reply_markup=await get_back_to_main_kb(),
+                reply_markup=await get_suc_add_link(),
             )
 
         else:
             await bot.edit_message_text(
                 chat_id=user_id,
                 message_id=data["msg_id"],
-                text="❌ Канал не найден. Пожалуйста, введите корректную ссылку.",reply_markup=await get_cancel_menu()
+                text="❌ Канал не найден. Пожалуйста, введите корректную ссылку.",
+                reply_markup=await get_cancel_menu(),
             )
 
         await state.clear()
-

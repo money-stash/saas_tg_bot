@@ -20,7 +20,7 @@ async def start_update_surname(call: CallbackQuery, bot: Bot, state: FSMContext)
     await state.set_state(ChangeSurname.surname)
 
     await bot.edit_message_text(
-        text="✏️ Введите новое фамилию для сессии:",
+        text="✏️ Введите новое фамилию для сессии:\n\nЧТОБЫ УБРАТЬ ФАМИЛИЮ напишите: <i>None</i> или <i>none</i>",
         chat_id=call.from_user.id,
         message_id=call.message.message_id,
         reply_markup=await get_cancel_menu(),

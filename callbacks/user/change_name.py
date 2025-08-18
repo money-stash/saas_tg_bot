@@ -20,7 +20,7 @@ async def start_update_name(call: CallbackQuery, bot: Bot, state: FSMContext):
     await state.set_state(ChangeName.name)
 
     await bot.edit_message_text(
-        text="✏️ Введите новое имя для сессии:",
+        text="✏️ Введите новое имя для сессии:\n\nЧТОБЫ УБРАТЬ ИМЯ напишите: <i>None</i> или <i>none</i>",
         chat_id=call.from_user.id,
         message_id=call.message.message_id,
         reply_markup=await get_cancel_menu(),

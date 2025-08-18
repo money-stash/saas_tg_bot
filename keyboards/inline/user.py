@@ -99,6 +99,15 @@ async def get_back_to_main_kb():
     return kb
 
 
+async def get_suc_add_link():
+    kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="🔙 Назад", callback_data="links_menu")]
+        ]
+    )
+    return kb
+
+
 async def get_back_to_link(link_id):
     kb = InlineKeyboardMarkup(
         inline_keyboard=[
@@ -195,7 +204,7 @@ async def get_link_info_kb(link_id, is_active):
         ],
     )
     kb.append(
-        [InlineKeyboardButton(text="🔙 Назад", callback_data="back_to_main")],
+        [InlineKeyboardButton(text="🔙 Назад", callback_data="links_menu")],
     )
     keyboard = InlineKeyboardMarkup(inline_keyboard=kb)
 
